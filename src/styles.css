@@ -114,6 +114,13 @@ main {
   gap: 1rem;
   background-color: #f0f0f0;
   justify-content: center;
+  padding: 1rem;
+}
+
+@media (max-width: 768px) {
+  .bento-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 .bento-container > section {
@@ -126,13 +133,13 @@ main {
   background-color: green;
 }
 
-.bento-2x4 {
+.bento-4x2 {
   grid-column: span 4;
   grid-row: span 2;
   background-color: blue;
 }
 
-.bento-4x2 {
+.bento-2x4 {
   grid-column: span 2;
   grid-row: span 4;
   background-color: red;
@@ -142,4 +149,21 @@ main {
   grid-column: span 4;
   grid-row: span 4;
   background-color: yellow;
+}
+
+@media (max-width: 768px) {
+  .bento-2x2 {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .bento-4x2 {
+    grid-column: span 4;
+    grid-row: span 2;
+  }
+
+  .bento-2x4 {
+    grid-column: span 2;
+    grid-row: span 4;
+  }
 }
