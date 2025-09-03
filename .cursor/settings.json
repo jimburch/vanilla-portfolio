@@ -1,0 +1,7 @@
+{
+  "mcp.autoApproveTools": [
+    "mcp_playwright_browser_take_screenshot",
+    "mcp_playwright_browser_snapshot"
+  ],
+  "mcp.autoApproveDomains": ["127.0.0.1", "localhost"]
+}

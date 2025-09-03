@@ -103,11 +103,31 @@ nav img:hover {
 main {
   max-width: 1000px;
   margin: 0 auto;
+  padding-top: 10rem;
 }
 
 .bento-container {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: repeat(8, 1fr);
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(6, 1fr);
   gap: 1rem;
+
+  /* Grid visualization */
+  background-image:
+    linear-gradient(to right, #e0e0e0 1px, transparent 1px),
+    linear-gradient(to bottom, #e0e0e0 1px, transparent 1px);
+  background-size: calc(100% / 10) calc(100% / 6);
+  background-position: 0 0;
+}
+
+.bento-2x2 {
+  grid-column: span 2;
+  grid-row: span 2;
+  background-color: green;
+}
+
+.bento-2x4 {
+  grid-column: span 4;
+  grid-row: span 2;
+  background-color: blue;
 }
