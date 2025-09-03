@@ -1,0 +1,1 @@
+This is a basic static website that serves as my personal dev portfolio/landing page using nothing more than HTML, CSS, and vanilla JS. All suggested code should only use those patterns and not rely on any packages, compiling or outside tools.

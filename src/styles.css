@@ -67,10 +67,6 @@ h6 {
   isolation: isolate;
 }
 
-:root {
-  /* variables go here */
-}
-
 header {
   position: fixed;
   width: 100%;
@@ -104,24 +100,14 @@ nav img:hover {
   opacity: 0.7;
 }
 
-section {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+main {
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
-.home {
-  color: red;
-  background-color: lightblue;
-}
-
-.projects {
-  color: blue;
-  background-color: lightgreen;
-}
-
-.about {
-  color: green;
-  background-color: lightyellow;
+.bento-container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  gap: 1rem;
 }
