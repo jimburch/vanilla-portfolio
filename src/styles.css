@@ -108,16 +108,14 @@ main {
 
 .bento-container {
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  grid-template-rows: repeat(6, 1fr);
+  grid-template-columns: repeat(10, 80px);
+  grid-template-rows: repeat(6, 80px);
   gap: 1rem;
+  background-color: #f0f0f0;
+}
 
-  /* Grid visualization */
-  background-image:
-    linear-gradient(to right, #e0e0e0 1px, transparent 1px),
-    linear-gradient(to bottom, #e0e0e0 1px, transparent 1px);
-  background-size: calc(100% / 10) calc(100% / 6);
-  background-position: 0 0;
+.bento-container > section {
+  border-radius: 1rem;
 }
 
 .bento-2x2 {
@@ -130,4 +128,16 @@ main {
   grid-column: span 4;
   grid-row: span 2;
   background-color: blue;
+}
+
+.bento-4x2 {
+  grid-column: span 2;
+  grid-row: span 4;
+  background-color: red;
+}
+
+.bento-4x4 {
+  grid-column: span 4;
+  grid-row: span 4;
+  background-color: yellow;
 }
