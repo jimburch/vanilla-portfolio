@@ -67,21 +67,55 @@ h6 {
   isolation: isolate;
 }
 
+/* ************************* */
+/* GLOBAL VARIABLES & STYLES */
+/* ************************* */
+
+:root {
+  --background-color-default: #023047;
+  --text-color-default: #8ecae6;
+  --title-color-default: #fb8500;
+  --bento-color-default: #219ebc;
+  --header-height: 60px;
+}
+
+html,
+body {
+  background-color: var(--background-color-default);
+  color: var(--text-color-default);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--title-color-default);
+}
+
+main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding-top: var(--header-height);
+}
+
+/* ************* */
+/* HEADER STYLES */
+/* ************* */
+
 header {
   position: fixed;
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #ffffff;
-  padding: 1rem 2rem;
   z-index: 1000;
 }
 
 header > div {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #333;
 }
 
 nav {
@@ -100,11 +134,9 @@ nav img:hover {
   opacity: 0.7;
 }
 
-main {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding-top: 10rem;
-}
+/* ***************** */
+/* BENTO GRID STYLES */
+/* ***************** */
 
 .bento-container {
   display: grid;
@@ -112,7 +144,6 @@ main {
   grid-auto-rows: 80px;
   grid-auto-flow: row dense;
   gap: 1rem;
-  background-color: #f0f0f0;
   justify-content: center;
   padding: 1rem;
 }
@@ -130,6 +161,7 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: var(--bento-color-default);
 }
 
 .bento-2x2 {
@@ -156,7 +188,27 @@ main {
   background-color: yellow;
 }
 
-/* Modal Styles */
+@media (max-width: 768px) {
+  .bento-2x2 {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .bento-4x2 {
+    grid-column: span 4;
+    grid-row: span 2;
+  }
+
+  .bento-2x4 {
+    grid-column: span 2;
+    grid-row: span 4;
+  }
+}
+
+/* ************ */
+/* MODAL STYLES */
+/* ************ */
+
 .modal {
   position: fixed;
   top: 0;
@@ -205,21 +257,4 @@ main {
 .modal p {
   color: #666;
   line-height: 1.6;
-}
-
-@media (max-width: 768px) {
-  .bento-2x2 {
-    grid-column: span 2;
-    grid-row: span 2;
-  }
-
-  .bento-4x2 {
-    grid-column: span 4;
-    grid-row: span 2;
-  }
-
-  .bento-2x4 {
-    grid-column: span 2;
-    grid-row: span 4;
-  }
 }
