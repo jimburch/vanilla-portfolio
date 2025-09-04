@@ -20,6 +20,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (!isDesktop) return;
 
+  // Track which node is currently being hovered
+  let activeNode = null;
+
+  // Function to reset all nodes except the active one
+  function resetInactiveNodes() {
+    bentoNodes.forEach((node) => {
+      if (node !== activeNode && node.tiltState) {
+        node.tiltState.settings.scale = 1;
+        node.style.transform = `perspective(${node.tiltState.settings.perspective}px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+
+        if (node.tiltState.settings.glare && node.glareElement) {
+          node.glareElement.style.transform =
+            "rotate(180deg) translate(-50%, -50%)";
+          node.glareElement.style.opacity = "0";
+        }
+      }
+    });
+  }
+
+  // different tilt values for different node sizes
   function getMaxTiltForNode(node) {
     const classList = node.classList;
 
@@ -52,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
       },
     };
 
-    const prepareGlare = function () {
+    function prepareGlare() {
       if (!this.tiltState.settings.glare) return;
 
       const glareWrapper = document.createElement("div");
@@ -96,7 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
         opacity: "0",
         "border-radius": "50%",
       });
-    };
+    }
 
     const requestTick = function () {
       if (this.tiltState.ticking) return;
@@ -147,6 +167,10 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     node.addEventListener("mouseenter", function () {
+      // Set this as the active node and reset all others
+      activeNode = this;
+      resetInactiveNodes();
+
       this.tiltState.ticking = false;
       this.style.willChange = "transform";
       setTransition.call(this);
@@ -164,6 +188,11 @@ document.addEventListener("DOMContentLoaded", function () {
         this.glareElement.style.transform =
           "rotate(180deg) translate(-50%, -50%)";
         this.glareElement.style.opacity = "0";
+      }
+
+      // Clear active node if this was it
+      if (activeNode === this) {
+        activeNode = null;
       }
     });
 
@@ -191,6 +220,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     prepareGlare.call(node);
   });
+
+  // Add mouse move listener to bento container to reset inactive nodes
+  const bentoContainer = document.querySelector(".bento-container");
+  if (bentoContainer) {
+    bentoContainer.addEventListener("mousemove", function () {
+      resetInactiveNodes();
+    });
+  }
 
   // Modal close functionality
   const modals = document.querySelectorAll(".modal");

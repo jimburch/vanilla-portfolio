@@ -107,7 +107,7 @@ h6 {
   --header-height: 60px;
   --grid-cell-size: 80px;
   --grid-columns: 10;
-  --max-width: min(100vw, 1000px);
+  --max-width: min(100vw, 1040px);
 }
 
 html {
@@ -224,6 +224,7 @@ main h1 {
 .bento-container > a > img,
 .bento-container > a > span {
   /* transition: transform 0.2s ease; */
+  transform: translateZ(20px);
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
 }
 
