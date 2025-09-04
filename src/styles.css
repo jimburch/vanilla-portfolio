@@ -77,6 +77,7 @@ h6 {
   --title-color-default: #fb8500;
   --bento-color-default: #219ebc;
   --header-height: 60px;
+  --bento-shadow-depth: 4px;
 }
 
 html,
@@ -174,6 +175,14 @@ nav img:hover {
   overflow: hidden;
   transform-style: preserve-3d;
   transition: transform 0.5s ease-out;
+  box-shadow:
+    inset var(--bento-shadow-depth) var(--bento-shadow-depth) 0
+      rgba(0, 0, 0, 0.15),
+    var(--bento-shadow-depth) var(--bento-shadow-depth) 0 rgba(0, 0, 0, 0.15);
+}
+
+.bento-container > a:active {
+  transform: scale(0.95);
 }
 
 /* Bento content styling */
@@ -197,6 +206,15 @@ nav img:hover {
 
 .bento-container > a img {
   z-index: 5;
+}
+
+.bento-container > a > span:first-child {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 4rem;
+  margin-bottom: 0.5rem;
 }
 
 .bento-container > a:hover h2 {

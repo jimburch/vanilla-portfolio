@@ -1,18 +1,27 @@
 // 3D tilt effect for bento nodes
 document.addEventListener("DOMContentLoaded", function () {
-  const bentoLinks = document.querySelectorAll(".bento-container > a");
+  const bentoNodes = document.querySelectorAll(".bento-container > a");
 
-  bentoLinks.forEach((link) => {
-    link.addEventListener("mouseenter", function () {
+  bentoNodes.forEach((node) => {
+    node.addEventListener("mouseenter", function () {
       this.style.transition = "transform 0.1s ease-out";
     });
 
-    link.addEventListener("mouseleave", function () {
+    node.addEventListener("mouseleave", function () {
       this.style.transition = "transform 0.5s ease-out";
       this.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg)";
     });
 
-    link.addEventListener("mousemove", function (e) {
+    node.addEventListener("mousedown", function () {
+      this.style.transform =
+        "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(0.97)";
+    });
+
+    node.addEventListener("mouseup", function () {
+      this.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg)";
+    });
+
+    node.addEventListener("mousemove", function (e) {
       const rect = this.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
