@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
         perspective: 1000,
         speed: 400,
         easing: "cubic-bezier(.03,.98,.52,.99)",
-        scale: 1,
+        scale: 1.05,
         reset: true,
         glare: true,
         maxGlare: 0.3,
@@ -150,10 +150,14 @@ document.addEventListener("DOMContentLoaded", function () {
       this.tiltState.ticking = false;
       this.style.willChange = "transform";
       setTransition.call(this);
+
+      this.tiltState.settings.scale = 1.05;
     });
 
     node.addEventListener("mouseleave", function () {
       setTransition.call(this);
+
+      this.tiltState.settings.scale = 1;
       this.style.transform = `perspective(${this.tiltState.settings.perspective}px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
 
       if (this.tiltState.settings.glare && this.glareElement) {
@@ -174,7 +178,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     node.addEventListener("mouseup", function () {
-      this.style.transform = `perspective(${this.tiltState.settings.perspective}px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+      this.style.transform = `perspective(${this.tiltState.settings.perspective}px) rotateX(0deg) rotateY(0deg) scale3d(${this.tiltState.settings.scale}, ${this.tiltState.settings.scale}, ${this.tiltState.settings.scale})`;
     });
 
     node.addEventListener("touchstart", function () {
@@ -182,7 +186,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     node.addEventListener("touchend", function () {
-      this.style.transform = `perspective(${this.tiltState.settings.perspective}px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+      this.style.transform = `perspective(${this.tiltState.settings.perspective}px) rotateX(0deg) rotateY(0deg) scale3d(${this.tiltState.settings.scale}, ${this.tiltState.settings.scale}, ${this.tiltState.settings.scale})`;
     });
 
     prepareGlare.call(node);
