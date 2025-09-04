@@ -20,29 +20,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (!isDesktop) return;
 
-  // Function to calculate max tilt based on node size
   function getMaxTiltForNode(node) {
     const classList = node.classList;
 
-    // Determine node size based on CSS classes
     if (classList.contains("bento-4x4")) {
-      return 25; // 4x4 nodes (largest) - keep current tilt
+      return 25;
     } else if (
       classList.contains("bento-2x4") ||
       classList.contains("bento-4x2")
     ) {
-      return 25; // 2x4 and 4x2 nodes (medium) - more aggressive tilt
+      return 25;
     } else if (classList.contains("bento-2x2")) {
-      return 35; // 2x2 nodes (smallest) - most aggressive tilt
+      return 35;
     }
-
-    // Default fallback
     return 10;
   }
 
-  // Enhanced tilt logic with requestAnimationFrame for better performance
   bentoNodes.forEach((node) => {
-    // Initialize tilt state for each node
     node.tiltState = {
       ticking: false,
       mousePositions: { x: 0, y: 0 },
@@ -58,27 +52,21 @@ document.addEventListener("DOMContentLoaded", function () {
       },
     };
 
-    // Prepare glare effect
     const prepareGlare = function () {
       if (!this.tiltState.settings.glare) return;
 
-      // Create glare wrapper
       const glareWrapper = document.createElement("div");
       glareWrapper.className = "js-tilt-glare";
 
-      // Create glare element
       const glareElement = document.createElement("div");
       glareElement.className = "js-tilt-glare-inner";
       glareWrapper.appendChild(glareElement);
 
-      // Append to node
       this.appendChild(glareWrapper);
 
-      // Store references
       this.glareElementWrapper = glareWrapper;
       this.glareElement = glareElement;
 
-      // Style glare wrapper
       const stretch = {
         position: "absolute",
         top: "0",
@@ -92,7 +80,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
       Object.assign(glareWrapper.style, stretch);
 
-      // Style glare element
       const rect = this.getBoundingClientRect();
       const size = Math.max(rect.width, rect.height) * 2;
 
@@ -111,14 +98,12 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     };
 
-    // RequestAnimationFrame function for smooth updates
     const requestTick = function () {
       if (this.tiltState.ticking) return;
       requestAnimationFrame(updateTransforms.bind(this));
       this.tiltState.ticking = true;
     };
 
-    // Update transforms using RAF
     const updateTransforms = function () {
       const rect = this.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
@@ -130,7 +115,6 @@ document.addEventListener("DOMContentLoaded", function () {
       const rotateY = (mouseX / rect.width) * this.tiltState.settings.maxTilt;
       const rotateX = -(mouseY / rect.height) * this.tiltState.settings.maxTilt;
 
-      // Calculate glare angle and opacity
       const angle = Math.atan2(mouseX, -mouseY) * (180 / Math.PI);
       const percentageY =
         (this.tiltState.mousePositions.y - rect.top) / rect.height;
@@ -138,7 +122,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
       this.style.transform = `perspective(${this.tiltState.settings.perspective}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(${this.tiltState.settings.scale}, ${this.tiltState.settings.scale}, ${this.tiltState.settings.scale})`;
 
-      // Update glare effect
       if (this.tiltState.settings.glare && this.glareElement) {
         this.glareElement.style.transform = `rotate(${angle}deg) translate(-50%, -50%)`;
         this.glareElement.style.opacity = glareOpacity;
@@ -147,7 +130,6 @@ document.addEventListener("DOMContentLoaded", function () {
       this.tiltState.ticking = false;
     };
 
-    // Set transition for smooth enter/leave
     const setTransition = function () {
       if (this.tiltTimeout !== undefined) clearTimeout(this.tiltTimeout);
       this.style.transition = `${this.tiltState.settings.speed}ms ${this.tiltState.settings.easing}`;
@@ -164,19 +146,16 @@ document.addEventListener("DOMContentLoaded", function () {
       }, this.tiltState.settings.speed);
     };
 
-    // Mouse enter
     node.addEventListener("mouseenter", function () {
       this.tiltState.ticking = false;
       this.style.willChange = "transform";
       setTransition.call(this);
     });
 
-    // Mouse leave
     node.addEventListener("mouseleave", function () {
       setTransition.call(this);
       this.style.transform = `perspective(${this.tiltState.settings.perspective}px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
 
-      // Reset glare
       if (this.tiltState.settings.glare && this.glareElement) {
         this.glareElement.style.transform =
           "rotate(180deg) translate(-50%, -50%)";
@@ -184,14 +163,12 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
-    // Mouse move with RAF
     node.addEventListener("mousemove", function (e) {
       this.tiltState.mousePositions.x = e.clientX;
       this.tiltState.mousePositions.y = e.clientY;
       requestTick.call(this);
     });
 
-    // Click/touch events
     node.addEventListener("mousedown", function () {
       this.style.transform = `perspective(${this.tiltState.settings.perspective}px) rotateX(0deg) rotateY(0deg) scale3d(0.97, 0.97, 0.97)`;
     });
@@ -200,7 +177,6 @@ document.addEventListener("DOMContentLoaded", function () {
       this.style.transform = `perspective(${this.tiltState.settings.perspective}px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
     });
 
-    // Touch events for mobile
     node.addEventListener("touchstart", function () {
       this.style.transform = `perspective(${this.tiltState.settings.perspective}px) rotateX(0deg) rotateY(0deg) scale3d(0.97, 0.97, 0.97)`;
     });
@@ -209,7 +185,6 @@ document.addEventListener("DOMContentLoaded", function () {
       this.style.transform = `perspective(${this.tiltState.settings.perspective}px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
     });
 
-    // Initialize glare effect
     prepareGlare.call(node);
   });
 
