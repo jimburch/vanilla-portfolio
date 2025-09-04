@@ -1,5 +1,19 @@
 // 3D tilt effect for bento nodes (desktop only)
 document.addEventListener("DOMContentLoaded", function () {
+  // Hidden message for curious developers! 🕵️‍♂️
+  console.log(
+    "\n\n%cAha! You pressed cmd+option+j (or something) and found my hidden message!\n\n%cUsually tech companies will put their jobs link here but\n\n%cI\n%cam\n%cnot\n%ca\n%ctech\n%ccompany\n\n%cI am simply Jim, so all I have for you is...hello 👋",
+    "color: #ff6b6b; font-weight: bold; font-size: 18px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);",
+    "color: #4ecdc4; font-style: italic; font-size: 14px;",
+    "color: #ff9ff3; font-weight: bold; font-size: 16px; text-decoration: underline;",
+    "color: #54a0ff; font-weight: bold; font-size: 16px; text-decoration: underline;",
+    "color: #5f27cd; font-weight: bold; font-size: 16px; text-decoration: underline;",
+    "color: #00d2d3; font-weight: bold; font-size: 16px; text-decoration: underline;",
+    "color: #ff9f43; font-weight: bold; font-size: 16px; text-decoration: underline;",
+    "color: #ee5a24; font-weight: bold; font-size: 16px; text-decoration: underline;",
+    "color: #2ed573; font-weight: bold; font-size: 20px; text-shadow: 1px 1px 2px rgba(0,0,0,0.2);"
+  );
+
   const bentoNodes = document.querySelectorAll(".bento-container > a");
 
   // Only enable 3D tilt on devices that support hover
