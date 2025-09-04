@@ -1,6 +1,4 @@
-// 3D tilt effect for bento nodes (desktop only)
 document.addEventListener("DOMContentLoaded", function () {
-  // Hidden message for curious developers! 🕵️‍♂️
   console.log(
     "\n\n%cAha! You pressed cmd+option+j (or something) and found my hidden message!\n\n%cUsually tech companies will put their jobs link here but\n\n%cI\n%cam\n%cnot\n%ca\n%ctech\n%ccompany\n\n%cI am simply Jim, so all I have for you is...hello 👋",
     "color: #ff6b6b; font-weight: bold; font-size: 18px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);",
@@ -15,8 +13,6 @@ document.addEventListener("DOMContentLoaded", function () {
   );
 
   const bentoNodes = document.querySelectorAll(".bento-container > a");
-
-  // Only enable 3D tilt on devices that support hover
   const isDesktop = window.matchMedia(
     "(hover: hover) and (pointer: fine)"
   ).matches;
@@ -60,7 +56,6 @@ document.addEventListener("DOMContentLoaded", function () {
       const mouseX = e.clientX - centerX;
       const mouseY = e.clientY - centerY;
 
-      // Calculate rotation angles (subtle tilt)
       const rotateY = (mouseX / rect.width) * 10; // Max 10 degrees
       const rotateX = -(mouseY / rect.height) * 10; // Max 10 degrees, negative for natural tilt
 

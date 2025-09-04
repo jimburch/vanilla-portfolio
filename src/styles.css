@@ -76,10 +76,10 @@ h6 {
 /* ************************* */
 
 :root {
-  --background-color-default: #023047;
-  --text-color-default: #8ecae6;
+  --background-color-default: #00121a;
+  --text-color-default: #00121a;
   --title-color-default: #fb8500;
-  --bento-color-default: #219ebc;
+  --bento-color-default: #17bfe9;
   --header-height: 60px;
   --bento-shadow-depth: 4px;
 }
@@ -96,27 +96,27 @@ html {
     sans-serif;
 }
 
-/* h1,
+h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
   color: var(--title-color-default);
-} */
+}
 
 main {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: fit-content;
+  max-width: min(100vw, 1000px);
   padding: 2rem;
 }
 
 /* H1 alignment */
 main h1 {
   align-self: flex-start;
-  padding-left: 1rem;
 }
 
 /* Mobile adjustments */
@@ -333,4 +333,10 @@ main h1 {
 .modal p {
   color: #666;
   line-height: 1.6;
+}
+
+marquee {
+  color: var(--title-color-default);
+  overflow: hidden;
+  white-space: nowrap;
 }
