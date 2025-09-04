@@ -22,6 +22,10 @@
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 img,
@@ -80,8 +84,7 @@ h6 {
   --bento-shadow-depth: 4px;
 }
 
-html,
-body {
+html {
   background-color: var(--background-color-default);
   color: var(--text-color-default);
   font-family:
@@ -103,43 +106,45 @@ h6 {
 } */
 
 main {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding-top: var(--header-height);
-}
-
-/* ************* */
-/* HEADER STYLES */
-/* ************* */
-
-header {
-  position: fixed;
-  width: 100%;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  z-index: 1000;
+  width: fit-content;
+  padding: 2rem;
 }
 
-header > div {
-  font-size: 1.5rem;
-  font-weight: bold;
+/* H1 alignment */
+main h1 {
+  align-self: flex-start;
+  padding-left: 1rem;
 }
 
-nav {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-}
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  body {
+    align-items: flex-start;
+  }
 
-nav img {
-  width: 24px;
-  height: 24px;
-  transition: opacity 0.2s ease;
-}
+  main {
+    padding: 1rem;
+  }
 
-nav img:hover {
-  opacity: 0.7;
+  .bento-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .bento-2x2 {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  .bento-4x2 {
+    grid-column: span 4;
+    grid-row: span 2;
+  }
+  .bento-2x4 {
+    grid-column: span 2;
+    grid-row: span 4;
+  }
 }
 
 /* ***************** */
@@ -154,12 +159,6 @@ nav img:hover {
   gap: 1rem;
   justify-content: center;
   padding: 1rem;
-}
-
-@media (max-width: 768px) {
-  .bento-container {
-    grid-template-columns: repeat(4, 1fr);
-  }
 }
 
 .bento-container > a {
@@ -217,8 +216,15 @@ nav img:hover {
   margin-bottom: 0.5rem;
 }
 
-.bento-container > a:hover h2 {
-  opacity: 1;
+/* Desktop hover effects */
+@media (hover: hover) and (pointer: fine) {
+  .bento-container > a:hover h2 {
+    opacity: 1;
+  }
+
+  .bento-container > a:hover::before {
+    opacity: 1;
+  }
 }
 
 /* Frosted glass overlay */
@@ -230,10 +236,6 @@ nav img:hover {
   transition: opacity 0.3s ease;
   pointer-events: none;
   z-index: 10;
-}
-
-.bento-container > a:hover::before {
-  opacity: 1;
 }
 
 /* Frosted glass effect for supported browsers */
@@ -278,22 +280,6 @@ nav img:hover {
 .bento-4x4 {
   grid-column: span 4;
   grid-row: span 4;
-}
-
-/* Mobile responsive adjustments */
-@media (max-width: 768px) {
-  .bento-2x2 {
-    grid-column: span 2;
-    grid-row: span 2;
-  }
-  .bento-4x2 {
-    grid-column: span 4;
-    grid-row: span 2;
-  }
-  .bento-2x4 {
-    grid-column: span 2;
-    grid-row: span 4;
-  }
 }
 
 /* ************ */
@@ -344,7 +330,6 @@ nav img:hover {
   margin-bottom: 1rem;
   color: #333;
 }
-
 .modal p {
   color: #666;
   line-height: 1.6;

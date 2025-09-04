@@ -1,6 +1,13 @@
-// 3D tilt effect for bento nodes
+// 3D tilt effect for bento nodes (desktop only)
 document.addEventListener("DOMContentLoaded", function () {
   const bentoNodes = document.querySelectorAll(".bento-container > a");
+
+  // Only enable 3D tilt on devices that support hover
+  const isDesktop = window.matchMedia(
+    "(hover: hover) and (pointer: fine)"
+  ).matches;
+
+  if (!isDesktop) return;
 
   bentoNodes.forEach((node) => {
     node.addEventListener("mouseenter", function () {
@@ -18,6 +25,16 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     node.addEventListener("mouseup", function () {
+      this.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg)";
+    });
+
+    // Touch events for mobile
+    node.addEventListener("touchstart", function () {
+      this.style.transform =
+        "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(0.97)";
+    });
+
+    node.addEventListener("touchend", function () {
       this.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg)";
     });
 
