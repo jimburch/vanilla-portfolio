@@ -76,12 +76,38 @@ h6 {
 /* ************************* */
 
 :root {
+  /* Colors */
   --background-color-default: #00121a;
-  --text-color-default: #00121a;
-  --title-color-default: #fb8500;
-  --bento-color-default: #17bfe9;
-  --header-height: 60px;
+  --text-color-default: #e8f4f8;
+  --title-color-default: #ff9500;
+  --bento-color-default: #0ea5e9;
+  --bento-text-color: #ffffff;
+  --modal-bg: #ffffff;
+  --modal-text: #333333;
+  --modal-text-secondary: #444444;
+  --modal-overlay: rgba(0, 0, 0, 0.8);
+
+  /* Shadows */
+  --shadow-inset: rgba(0, 0, 0, 0.15);
+  --shadow-exterior: rgba(255, 255, 255, 0.1);
   --bento-shadow-depth: 4px;
+
+  /* Spacing */
+  --border-radius: 1rem;
+  --padding-sm: 1rem;
+  --padding-md: 1.5rem;
+  --padding-lg: 2rem;
+  --gap: 1rem;
+
+  /* Typography */
+  --font-size-large: 5rem;
+  --font-size-modal-close: 2rem;
+
+  /* Layout */
+  --header-height: 60px;
+  --grid-cell-size: 80px;
+  --grid-columns: 10;
+  --max-width: min(100vw, 1000px);
 }
 
 html {
@@ -110,8 +136,8 @@ main {
   flex-direction: column;
   align-items: center;
   width: fit-content;
-  max-width: min(100vw, 1000px);
-  padding: 2rem;
+  max-width: var(--max-width);
+  padding: var(--padding-lg);
 }
 
 /* H1 alignment */
@@ -126,7 +152,7 @@ main h1 {
   }
 
   main {
-    padding: 1rem;
+    padding: var(--padding-sm);
   }
 
   .bento-container {
@@ -153,19 +179,19 @@ main h1 {
 
 .bento-container {
   display: grid;
-  grid-template-columns: repeat(10, 80px);
-  grid-auto-rows: 80px;
+  grid-template-columns: repeat(var(--grid-columns), var(--grid-cell-size));
+  grid-auto-rows: var(--grid-cell-size);
   grid-auto-flow: row dense;
-  gap: 1rem;
+  gap: var(--gap);
   justify-content: center;
-  padding: 1rem;
+  padding: var(--padding-sm);
 }
 
 .bento-container > a {
-  border-radius: 1rem;
-  padding: 1rem;
+  border-radius: var(--border-radius);
+  padding: var(--padding-md);
   text-decoration: none;
-  color: inherit;
+  color: var(--bento-text-color);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -176,91 +202,38 @@ main h1 {
   transition: transform 0.5s ease-out;
   box-shadow:
     inset var(--bento-shadow-depth) var(--bento-shadow-depth) 0
-      rgba(0, 0, 0, 0.15),
-    var(--bento-shadow-depth) var(--bento-shadow-depth) 0 rgba(0, 0, 0, 0.15);
+      var(--shadow-inset),
+    var(--bento-shadow-depth) var(--bento-shadow-depth) 0 var(--shadow-exterior);
 }
 
-.bento-container > a:active {
-  transform: scale(0.95);
-}
-
-/* Bento content styling */
-.bento-container > a h2,
-.bento-container > a img {
-  transform-style: preserve-3d;
-}
-
-.bento-container > a h2 {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: 20;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.bento-container > a img {
-  z-index: 5;
-}
-
-.bento-container > a > span:first-child {
+.bento-container > a > span {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 4rem;
+  font-size: var(--font-size-large);
   margin-bottom: 0.5rem;
+  transition: transform 0.2s ease;
 }
 
-/* Desktop hover effects */
+/* Bento content styles */
+.bento-container > a > img,
+.bento-container > a > span {
+  transition: transform 0.2s ease;
+}
+
+/* Circular mask class for any image */
+.circular {
+  border-radius: 50%;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+/* Hover effect for bento content */
 @media (hover: hover) and (pointer: fine) {
-  .bento-container > a:hover h2 {
-    opacity: 1;
-  }
-
-  .bento-container > a:hover::before {
-    opacity: 1;
-  }
-}
-
-/* Frosted glass overlay */
-.bento-container > a::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-  z-index: 10;
-}
-
-/* Frosted glass effect for supported browsers */
-@supports (backdrop-filter: blur(16px)) or (-webkit-backdrop-filter: blur(16px)) {
-  .bento-container > a::before {
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    background: linear-gradient(
-      to bottom,
-      hsl(0deg 0% 100% / 0.3),
-      transparent 50%
-    );
-  }
-}
-
-/* Enhanced effect for browsers that support mask-image */
-@supports (mask-image: none) or (-webkit-mask-image: none) {
-  .bento-container > a::before {
-    height: 200%;
-    -webkit-mask-image: linear-gradient(
-      to bottom,
-      black 0% 50%,
-      transparent 50% 100%
-    );
-    mask-image: linear-gradient(to bottom, black 0% 50%, transparent 50% 100%);
+  .bento-container > a:hover > * {
+    transform: scale(1.03);
   }
 }
 
@@ -276,6 +249,8 @@ main h1 {
 .bento-2x4 {
   grid-column: span 2;
   grid-row: span 4;
+  display: flex;
+  flex-direction: column;
 }
 .bento-4x4 {
   grid-column: span 4;
@@ -292,7 +267,7 @@ main h1 {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: var(--modal-overlay);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -307,9 +282,9 @@ main h1 {
 }
 
 .modal-content {
-  background-color: white;
-  padding: 2rem;
-  border-radius: 1rem;
+  background-color: var(--modal-bg);
+  padding: var(--padding-lg);
+  border-radius: var(--border-radius);
   max-width: 90%;
   max-height: 90%;
   overflow-y: auto;
@@ -318,20 +293,20 @@ main h1 {
 
 .modal-close {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
-  font-size: 2rem;
+  top: var(--padding-sm);
+  right: var(--padding-sm);
+  font-size: var(--font-size-modal-close);
   text-decoration: none;
-  color: #666;
+  color: var(--modal-text);
   line-height: 1;
 }
 
 .modal h2 {
-  margin-bottom: 1rem;
-  color: #333;
+  margin-bottom: var(--padding-sm);
+  color: var(--modal-text);
 }
 .modal p {
-  color: #666;
+  color: var(--modal-text-secondary);
   line-height: 1.6;
 }
 
