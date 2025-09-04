@@ -97,7 +97,7 @@ h6 {
   --padding-sm: 1rem;
   --padding-md: 1.5rem;
   --padding-lg: 2rem;
-  --gap: 1rem;
+  --gap: 1.5rem;
 
   /* Typography */
   --font-size-large: 5rem;
@@ -217,13 +217,13 @@ main h1 {
   align-items: center;
   font-size: var(--font-size-large);
   margin-bottom: 0.5rem;
-  transition: transform 0.2s ease;
+  /* transition: transform 0.2s ease; */
 }
 
 /* Bento content styles */
 .bento-container > a > img,
 .bento-container > a > span {
-  transition: transform 0.2s ease;
+  /* transition: transform 0.2s ease; */
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
 }
 
@@ -235,12 +235,12 @@ main h1 {
   height: 100%;
 }
 
-/* Hover effect for bento content */
+/* Hover effect for bento content
 @media (hover: hover) and (pointer: fine) {
   .bento-container > a:hover > * {
     transform: scale(1.03);
   }
-}
+} */
 
 /* Bento size variants */
 .bento-2x2 {

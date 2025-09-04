@@ -20,49 +20,197 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (!isDesktop) return;
 
-  // Tile tilt on hover logic
+  // Function to calculate max tilt based on node size
+  function getMaxTiltForNode(node) {
+    const classList = node.classList;
+
+    // Determine node size based on CSS classes
+    if (classList.contains("bento-4x4")) {
+      return 25; // 4x4 nodes (largest) - keep current tilt
+    } else if (
+      classList.contains("bento-2x4") ||
+      classList.contains("bento-4x2")
+    ) {
+      return 25; // 2x4 and 4x2 nodes (medium) - more aggressive tilt
+    } else if (classList.contains("bento-2x2")) {
+      return 35; // 2x2 nodes (smallest) - most aggressive tilt
+    }
+
+    // Default fallback
+    return 10;
+  }
+
+  // Enhanced tilt logic with requestAnimationFrame for better performance
   bentoNodes.forEach((node) => {
-    node.addEventListener("mouseenter", function () {
-      this.style.transition = "transform 0.1s ease-out";
-    });
+    // Initialize tilt state for each node
+    node.tiltState = {
+      ticking: false,
+      mousePositions: { x: 0, y: 0 },
+      settings: {
+        maxTilt: getMaxTiltForNode(node),
+        perspective: 1000,
+        speed: 400,
+        easing: "cubic-bezier(.03,.98,.52,.99)",
+        scale: 1,
+        reset: true,
+        glare: true,
+        maxGlare: 0.3,
+      },
+    };
 
-    node.addEventListener("mouseleave", function () {
-      this.style.transition = "transform 0.5s ease-out";
-      this.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg)";
-    });
+    // Prepare glare effect
+    const prepareGlare = function () {
+      if (!this.tiltState.settings.glare) return;
 
-    node.addEventListener("mousedown", function () {
-      this.style.transform =
-        "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(0.97)";
-    });
+      // Create glare wrapper
+      const glareWrapper = document.createElement("div");
+      glareWrapper.className = "js-tilt-glare";
 
-    node.addEventListener("mouseup", function () {
-      this.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg)";
-    });
+      // Create glare element
+      const glareElement = document.createElement("div");
+      glareElement.className = "js-tilt-glare-inner";
+      glareWrapper.appendChild(glareElement);
 
-    // Touch events for mobile
-    node.addEventListener("touchstart", function () {
-      this.style.transform =
-        "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(0.97)";
-    });
+      // Append to node
+      this.appendChild(glareWrapper);
 
-    node.addEventListener("touchend", function () {
-      this.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg)";
-    });
+      // Store references
+      this.glareElementWrapper = glareWrapper;
+      this.glareElement = glareElement;
 
-    node.addEventListener("mousemove", function (e) {
+      // Style glare wrapper
+      const stretch = {
+        position: "absolute",
+        top: "0",
+        left: "0",
+        width: "100%",
+        height: "100%",
+        overflow: "hidden",
+        "pointer-events": "none",
+        "border-radius": "inherit",
+      };
+
+      Object.assign(glareWrapper.style, stretch);
+
+      // Style glare element
+      const rect = this.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height) * 2;
+
+      Object.assign(glareElement.style, {
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        "background-image":
+          "linear-gradient(0deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 100%)",
+        width: `${size}px`,
+        height: `${size}px`,
+        transform: "rotate(180deg) translate(-50%, -50%)",
+        "transform-origin": "0% 0%",
+        opacity: "0",
+        "border-radius": "50%",
+      });
+    };
+
+    // RequestAnimationFrame function for smooth updates
+    const requestTick = function () {
+      if (this.tiltState.ticking) return;
+      requestAnimationFrame(updateTransforms.bind(this));
+      this.tiltState.ticking = true;
+    };
+
+    // Update transforms using RAF
+    const updateTransforms = function () {
       const rect = this.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
 
-      const mouseX = e.clientX - centerX;
-      const mouseY = e.clientY - centerY;
+      const mouseX = this.tiltState.mousePositions.x - centerX;
+      const mouseY = this.tiltState.mousePositions.y - centerY;
 
-      const rotateY = (mouseX / rect.width) * 10; // Max 10 degrees
-      const rotateX = -(mouseY / rect.height) * 10; // Max 10 degrees, negative for natural tilt
+      const rotateY = (mouseX / rect.width) * this.tiltState.settings.maxTilt;
+      const rotateX = -(mouseY / rect.height) * this.tiltState.settings.maxTilt;
 
-      this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      // Calculate glare angle and opacity
+      const angle = Math.atan2(mouseX, -mouseY) * (180 / Math.PI);
+      const percentageY =
+        (this.tiltState.mousePositions.y - rect.top) / rect.height;
+      const glareOpacity = percentageY * this.tiltState.settings.maxGlare;
+
+      this.style.transform = `perspective(${this.tiltState.settings.perspective}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(${this.tiltState.settings.scale}, ${this.tiltState.settings.scale}, ${this.tiltState.settings.scale})`;
+
+      // Update glare effect
+      if (this.tiltState.settings.glare && this.glareElement) {
+        this.glareElement.style.transform = `rotate(${angle}deg) translate(-50%, -50%)`;
+        this.glareElement.style.opacity = glareOpacity;
+      }
+
+      this.tiltState.ticking = false;
+    };
+
+    // Set transition for smooth enter/leave
+    const setTransition = function () {
+      if (this.tiltTimeout !== undefined) clearTimeout(this.tiltTimeout);
+      this.style.transition = `${this.tiltState.settings.speed}ms ${this.tiltState.settings.easing}`;
+
+      if (this.tiltState.settings.glare && this.glareElement) {
+        this.glareElement.style.transition = `opacity ${this.tiltState.settings.speed}ms ${this.tiltState.settings.easing}`;
+      }
+
+      this.tiltTimeout = setTimeout(() => {
+        this.style.transition = "";
+        if (this.tiltState.settings.glare && this.glareElement) {
+          this.glareElement.style.transition = "";
+        }
+      }, this.tiltState.settings.speed);
+    };
+
+    // Mouse enter
+    node.addEventListener("mouseenter", function () {
+      this.tiltState.ticking = false;
+      this.style.willChange = "transform";
+      setTransition.call(this);
     });
+
+    // Mouse leave
+    node.addEventListener("mouseleave", function () {
+      setTransition.call(this);
+      this.style.transform = `perspective(${this.tiltState.settings.perspective}px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+
+      // Reset glare
+      if (this.tiltState.settings.glare && this.glareElement) {
+        this.glareElement.style.transform =
+          "rotate(180deg) translate(-50%, -50%)";
+        this.glareElement.style.opacity = "0";
+      }
+    });
+
+    // Mouse move with RAF
+    node.addEventListener("mousemove", function (e) {
+      this.tiltState.mousePositions.x = e.clientX;
+      this.tiltState.mousePositions.y = e.clientY;
+      requestTick.call(this);
+    });
+
+    // Click/touch events
+    node.addEventListener("mousedown", function () {
+      this.style.transform = `perspective(${this.tiltState.settings.perspective}px) rotateX(0deg) rotateY(0deg) scale3d(0.97, 0.97, 0.97)`;
+    });
+
+    node.addEventListener("mouseup", function () {
+      this.style.transform = `perspective(${this.tiltState.settings.perspective}px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+    });
+
+    // Touch events for mobile
+    node.addEventListener("touchstart", function () {
+      this.style.transform = `perspective(${this.tiltState.settings.perspective}px) rotateX(0deg) rotateY(0deg) scale3d(0.97, 0.97, 0.97)`;
+    });
+
+    node.addEventListener("touchend", function () {
+      this.style.transform = `perspective(${this.tiltState.settings.perspective}px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+    });
+
+    // Initialize glare effect
+    prepareGlare.call(node);
   });
 
   // Modal close functionality
