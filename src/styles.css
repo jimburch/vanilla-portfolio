@@ -85,7 +85,7 @@ h6 {
   --modal-bg: #ffffff;
   --modal-text: #333333;
   --modal-text-secondary: #444444;
-  --modal-overlay: rgba(0, 0, 0, 0.8);
+  --modal-overlay: rgba(0, 0, 0, 0.6);
 
   /* Shadows */
   --shadow-inset: rgba(0, 0, 0, 0.15);
@@ -189,7 +189,7 @@ main h1 {
 
 .bento-container > a {
   border-radius: var(--border-radius);
-  padding: var(--padding-md);
+  padding: var(--padding-lg);
   text-decoration: none;
   color: var(--bento-text-color);
   display: flex;
@@ -220,6 +220,7 @@ main h1 {
 .bento-container > a > img,
 .bento-container > a > span {
   transition: transform 0.2s ease;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
 }
 
 /* Circular mask class for any image */
@@ -274,11 +275,19 @@ main h1 {
   z-index: 2000;
   opacity: 0;
   visibility: hidden;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
 }
 
 .modal:target {
   opacity: 1;
   visibility: visible;
+}
+
+.modal:target .modal-content {
+  transform: scale(1) translateY(0);
+  opacity: 1;
 }
 
 .modal-content {
@@ -289,6 +298,22 @@ main h1 {
   max-height: 90%;
   overflow-y: auto;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap);
+  max-width: 800px;
+  transform: scale(0.8) translateY(-20px);
+  opacity: 0;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.modal-content > img {
+  width: 100%;
+  height: 100%;
+  max-width: 200px;
 }
 
 .modal-close {

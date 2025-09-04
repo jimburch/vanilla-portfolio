@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+  // Fun console log
   console.log(
     "\n\n%cAha! You pressed cmd+option+j (or something) and found my hidden message!\n\n%cUsually tech companies will put their jobs link here but\n\n%cI\n%cam\n%cnot\n%ca\n%ctech\n%ccompany\n\n%cI am simply Jim, so all I have for you is...hello 👋",
     "color: #ff6b6b; font-weight: bold; font-size: 18px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);",
@@ -19,6 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (!isDesktop) return;
 
+  // Tile tilt on hover logic
   bentoNodes.forEach((node) => {
     node.addEventListener("mouseenter", function () {
       this.style.transition = "transform 0.1s ease-out";
@@ -61,5 +63,32 @@ document.addEventListener("DOMContentLoaded", function () {
 
       this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
     });
+  });
+
+  // Modal close functionality
+  const modals = document.querySelectorAll(".modal");
+  const modalContents = document.querySelectorAll(".modal-content");
+
+  function closeModal() {
+    setTimeout(() => {
+      window.location.hash = "";
+    }, 50);
+  }
+
+  modals.forEach((modal) => {
+    modal.addEventListener("click", function (e) {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") {
+      const visibleModal = document.querySelector(".modal:target");
+      if (visibleModal) {
+        closeModal();
+      }
+    }
   });
 });
