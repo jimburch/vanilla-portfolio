@@ -162,6 +162,75 @@ nav img:hover {
   align-items: center;
   justify-content: center;
   background-color: var(--bento-color-default);
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease-out;
+}
+
+.bento-container > a h2 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 20;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  font-size: 1.5rem;
+  font-weight: bold;
+  transform-style: preserve-3d;
+}
+
+.bento-container > a img {
+  transition: transform 0.1s ease-out;
+  z-index: 5;
+  transform-style: preserve-3d;
+}
+
+.bento-container > a:hover h2 {
+  opacity: 1;
+}
+
+.bento-container > a::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.bento-container > a:hover::before {
+  opacity: 1;
+}
+
+/* Frosted glass effect for supported browsers */
+@supports (backdrop-filter: blur(16px)) or (-webkit-backdrop-filter: blur(16px)) {
+  .bento-container > a::before {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    background: linear-gradient(
+      to bottom,
+      hsl(0deg 0% 100% / 0.3),
+      transparent 50%
+    );
+  }
+}
+
+/* Enhanced effect for browsers that support mask-image */
+@supports (mask-image: none) or (-webkit-mask-image: none) {
+  .bento-container > a::before {
+    height: 200%;
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      black 0% 50%,
+      transparent 50% 100%
+    );
+    mask-image: linear-gradient(to bottom, black 0% 50%, transparent 50% 100%);
+  }
 }
 
 .bento-2x2 {
