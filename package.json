@@ -4,6 +4,7 @@
   "main": "scripts.js",
   "scripts": {
     "dev": "npx live-server src --port=3000 --open=/index.html",
+    "dev:network": "node scripts/network-ip.js && npx live-server src --port=3000 --host=0.0.0.0",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
