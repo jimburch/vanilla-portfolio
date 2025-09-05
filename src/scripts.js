@@ -221,7 +221,7 @@ document.addEventListener("DOMContentLoaded", function () {
     prepareGlare.call(node);
   });
 
-  // Add mouse move listener to bento container to reset inactive nodes
+  // resets node tilt
   const bentoContainer = document.querySelector(".bento-container");
   if (bentoContainer) {
     bentoContainer.addEventListener("mousemove", function () {
