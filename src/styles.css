@@ -94,6 +94,7 @@ h6 {
 
   /* Spacing */
   --border-radius: 1rem;
+  --padding-xs: 0.5rem;
   --padding-sm: 1rem;
   --padding-md: 1.5rem;
   --padding-lg: 2rem;
@@ -104,10 +105,10 @@ h6 {
   --font-size-modal-close: 2rem;
 
   /* Layout */
-  --header-height: 60px;
   --grid-cell-size: 80px;
   --grid-columns: 10;
   --max-width: min(100vw, 1040px);
+  --mobile-breakpoint: 768px;
 }
 
 html {
@@ -146,7 +147,7 @@ main h1 {
 }
 
 /* Mobile adjustments */
-@media (max-width: 768px) {
+@media (max-width: var(--mobile-breakpoint)) {
   body {
     align-items: flex-start;
   }
@@ -155,25 +156,8 @@ main h1 {
     padding: var(--padding-sm);
   }
 
-  .bento-container {
-    grid-template-columns: repeat(4, 1fr) !important;
-    grid-auto-rows: 1fr !important;
-    gap: 0.5rem !important;
-    padding: 0.5rem !important;
-    justify-content: stretch !important;
-  }
-
-  .bento-2x2 {
-    grid-column: span 2;
-    grid-row: span 2;
-  }
-  .bento-4x2 {
-    grid-column: span 4;
-    grid-row: span 2;
-  }
-  .bento-2x4 {
-    grid-column: span 2;
-    grid-row: span 4;
+  main > h1 {
+    padding-left: var(--padding-xs);
   }
 }
 
@@ -215,33 +199,15 @@ main h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: var(--font-size-large);
+  font-size: clamp(2.5rem, 20vw, var(--font-size-large));
   margin-bottom: 0.5rem;
-  /* transition: transform 0.2s ease; */
 }
 
-/* Bento content styles */
 .bento-container > a > img,
 .bento-container > a > span {
-  /* transition: transform 0.2s ease; */
   transform: translateZ(20px);
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
 }
-
-/* Circular mask class for any image */
-.circular {
-  border-radius: 50%;
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-}
-
-/* Hover effect for bento content
-@media (hover: hover) and (pointer: fine) {
-  .bento-container > a:hover > * {
-    transform: scale(1.03);
-  }
-} */
 
 /* Bento size variants */
 .bento-2x2 {
@@ -261,6 +227,40 @@ main h1 {
 .bento-4x4 {
   grid-column: span 4;
   grid-row: span 4;
+}
+
+/* Circular mask class for any image */
+.circular {
+  border-radius: 50%;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: var(--mobile-breakpoint)) {
+  .bento-container {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 0.5rem !important;
+    padding: 0.5rem !important;
+    justify-content: stretch !important;
+  }
+
+  .bento-container > a {
+    padding: var(--padding-md);
+  }
+
+  .bento-2x2 {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  .bento-4x2 {
+    grid-column: span 4;
+    grid-row: span 2;
+  }
+  .bento-2x4 {
+    grid-column: span 2;
+    grid-row: span 4;
+  }
 }
 
 /* ************ */
@@ -344,4 +344,10 @@ marquee {
   color: var(--title-color-default);
   overflow: hidden;
   white-space: nowrap;
+}
+
+@media (max-width: var(--mobile-breakpoint)) {
+  marquee {
+    display: none;
+  }
 }
