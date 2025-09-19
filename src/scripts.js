@@ -20,10 +20,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (!isDesktop) return;
 
-  // Track which node is currently being hovered
   let activeNode = null;
 
-  // Function to reset all nodes except the active one
   function resetInactiveNodes() {
     bentoNodes.forEach((node) => {
       if (node !== activeNode && node.tiltState) {
@@ -167,7 +165,6 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     node.addEventListener("mouseenter", function () {
-      // Set this as the active node and reset all others
       activeNode = this;
       resetInactiveNodes();
 
@@ -190,7 +187,6 @@ document.addEventListener("DOMContentLoaded", function () {
         this.glareElement.style.opacity = "0";
       }
 
-      // Clear active node if this was it
       if (activeNode === this) {
         activeNode = null;
       }
