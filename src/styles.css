@@ -132,6 +132,10 @@ h6 {
   color: var(--title-color-default);
 }
 
+a {
+  color: var(--text-color-default);
+}
+
 main {
   display: flex;
   flex-direction: column;
