@@ -377,6 +377,10 @@ body:has(.modal:target) {
   filter: brightness(0) invert(1);
 }
 
+.modal-bar {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .modal {
     align-items: flex-end;
@@ -384,7 +388,8 @@ body:has(.modal:target) {
 
   .modal-content {
     flex-direction: column;
-    height: 90%;
+    height: 85%;
+    justify-content: flex-start;
     max-height: 100%;
     width: 100%;
     max-width: 100%;
@@ -401,12 +406,19 @@ body:has(.modal:target) {
   }
 
   .modal-content > img {
-    margin-top: 75px;
     width: 200px;
     height: 200px;
     object-fit: cover;
     align-self: center;
     border-radius: 50%;
+  }
+
+  .modal-close {
+    display: none;
+  }
+
+  .modal-bar {
+    display: block;
   }
 }
 
