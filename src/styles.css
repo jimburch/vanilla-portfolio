@@ -377,10 +377,6 @@ body:has(.modal:target) {
   filter: brightness(0) invert(1);
 }
 
-.modal-bar {
-  display: none;
-}
-
 @media (max-width: 768px) {
   .modal {
     align-items: flex-end;
@@ -399,6 +395,7 @@ body:has(.modal:target) {
     /* Hide scrollbar on mobile while keeping scroll functionality */
     -ms-overflow-style: none; /* Internet Explorer 10+ */
     scrollbar-width: none; /* Firefox */
+    border-bottom: none;
   }
 
   .modal-content::-webkit-scrollbar {
@@ -411,14 +408,6 @@ body:has(.modal:target) {
     object-fit: cover;
     align-self: center;
     border-radius: 50%;
-  }
-
-  .modal-close {
-    display: none;
-  }
-
-  .modal-bar {
-    display: block;
   }
 }
 
