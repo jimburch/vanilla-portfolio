@@ -391,8 +391,7 @@ body:has(.modal:target) {
     left: 0;
     right: 0;
     width: 100vw;
-    height: 100vh;
-    min-height: 100vh;
+    height: 100dvh;
     min-height: 100dvh;
   }
 
